@@ -7,7 +7,6 @@ class BigInt
 private:
 	std::deque<int> num;
 	bool sig;
-	//unsigned operator [] (size_t);
 	int compare(const BigInt &bi)const;
 	//BigInt del(BigInt&, const int);
 public:
