@@ -14,7 +14,7 @@ class line {
 	char delim = ' ';
 public:
 	line() {
-		elem = (T*)(alloc.begin);
+		elem = reinterpret_cast<T*>(alloc.begin);
 		inplase = 0;
 	}
 
@@ -62,13 +62,6 @@ public:
 		}
 	}
 
-	/*void add_back(T& value) {
-		if (inplase + 1 <= N) {
-			std::allocator_traits<linealloc<N, T>>::construct(alloc, std::allocator_traits<linealloc<N, T>>::allocate(alloc, 1), value);
-			++inplase;
-		}
-	}*/
-
 	template <typename...Args>
 	void replase(std::size_t i, Args&...arg) {
 		if (i >= N) {
@@ -96,11 +89,9 @@ public:
 
 	~line() {
 		for (std::size_t i= 0; i < inplase; ++i) {
-			//T* n = nullptr;
 			std::allocator_traits<linealloc<N, T>>::destroy(alloc, (T*)(nullptr));
 			std::allocator_traits<linealloc<N, T>>::deallocate(alloc, elem, 1);
 		}
-		//alloc.deallocate();
 	}
 
 	T& operator[](std::size_t i) {
@@ -230,11 +221,8 @@ public:
 			}
 			return ans;
 		}
-		throw std::exception();
+		throw std::runtime_error("line is empy");
 	}
-
-	/*template <template<T, std::allocator<T>> typename cont> 
-	line(cont<T>)*/
 
 	explicit operator std::vector<T>() {
 		std::vector<T> ans(N);
@@ -260,7 +248,7 @@ public:
 		return elem + N;
 	}
 
-	void change_delim(const char& c) {
+	void change_delim(char c) {
 		delim = c;
     }
 

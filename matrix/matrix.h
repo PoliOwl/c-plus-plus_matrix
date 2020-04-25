@@ -9,7 +9,6 @@ protected:
 	template <unsigned , unsigned , typename > friend class matrix;
 public:
 
-	//mattrix() = delete;
 
 	matrix(field** m) {
 		for (size_t i = 0; i < M; ++i) {
@@ -24,9 +23,8 @@ public:
 	}
 
 	matrix(field* m) {
-		//size_t l = 0;
 		for (size_t i = 0; i < M; ++i) {
-			mat.add_back(line<N, field>(&m[N*i], N));
+			mat.add_back(line<N, field>((m + (N * i)), N));
 		}
 	}
 
@@ -176,14 +174,10 @@ public:
 		}
 		return ans;
 	}
-
-	//friend std::istream& operator>>(std::istream& is, matrix<M, N, field>)
 };
 
 template<unsigned N, typename field = rational>
 class SquareMatrix : public matrix<N, N, field> {
-	/*using matrix::matrix;
-	using matrix::operator=;*/
 
 	using matrix<N, N, field>::mat;
 public:
@@ -198,16 +192,3 @@ public:
 	
 };
 
-
-/*
-class cl {
-type *p;
-}
-main()
-{
-cl *el = new cl[10];
-el[6] = cl(3);
-el[6] = cl(5);
-}
-
-*/

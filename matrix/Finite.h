@@ -5,10 +5,8 @@ template <int N>
 class finite {
 	unsigned x;
 public:
-	finite(const int n);
-	finite() {
-		x = 0;
-	}
+	finite(int n);
+	finite(): x(0) {}
 	finite<N> operator+(const finite<N>&);
 	finite<N> operator-(const finite<N>&);
 	finite<N> operator*(const finite<N>&);
@@ -24,7 +22,7 @@ public:
 };
 
 template<int N>
-finite<N>::finite(const int n): x(abs(n%N)){
+finite<N>::finite(int n): x(abs(n%N)){
 }
 
 template <int N> 

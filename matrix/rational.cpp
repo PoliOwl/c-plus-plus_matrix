@@ -50,7 +50,7 @@ rational::rational(const BigInt& t, const BigInt& b = 1) {
 }
 
 rational& rational::operator+=(const rational &operand) {
-	//((top != zero) && (operand.top != zero)) ? (top = top * operand.bottom + operand.top*bottom, bottom *= operand.bottom) : (top += operand.top, bottom *= (top != zero), bottom += operand.bottom*BigInt(int(operand.top != zero))); то что ниже одной строчкой но с вызовом множества операций, хотя это можно избежать
+	
 	if ((top != zero) && (operand.top != zero)) {
 		top = top * operand.bottom + operand.top*bottom;
 		bottom *= operand.bottom; 

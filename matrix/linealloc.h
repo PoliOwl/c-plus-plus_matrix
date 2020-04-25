@@ -11,17 +11,17 @@ public:
 		begin = place;
 	}
 
-	T* allocate(size_t n) { //перенос указателя на место после последего элемента 
+	T* allocate(size_t n) { //moves pointer forward
 		char* here = place + n*(sizeof(T));
 		if (here - begin > sizeof(T)* N) { throw std::bad_array_new_length(); }
 		place = here;
-		return (T*)(place-n*sizeof(T));
+		return reinterpret_cast<T*>(place-n*sizeof(T));
 	}
 
-	void destroy(T* p = nullptr) {//удаление последнего элемента
+	void destroy(T* p = nullptr) {//deleting of the last character
 		if (p == nullptr) {
 			if (!(begin == place)) {
-				T* there = (T*)(place - sizeof(T));
+				T* there = reinterpret_cast<T*>(place - sizeof(T));
 				there->~T();
 			}
 		}
@@ -31,7 +31,7 @@ public:
 		}
 	}
 
-	void deallocate(T*, size_t n) { //смещениие указателя 
+	void deallocate(T*, size_t n) { //moves pointer
 		char* here = place - n * sizeof(T);
 		if (here < begin) {
 			throw std::exception();
@@ -48,20 +48,6 @@ public:
 		place = new char[sizeof(T)*N];
 		begin = place;
 	}
-
-	/*linealloc& operator=(const linealloc<N, T>& l) {
-		while (place != begin) {
-			destroy();
-		}
-		deallocate();
-		place = new char[sizeof(T)*N];
-		begin = place;
-	}
-	*/
-	/*template <typename...Args>
-	void construct(T* p, Args&...arg) {
-		new(p) T(arg...);
-	}*/
 
 	~linealloc() {
 		delete begin;

@@ -3,7 +3,7 @@
 
 BigInt::BigInt(long long number) :sig(number<0)
 {
-	//sig = number>0;
+
 	if (!number) {
 		num.push_back(0);
 		return;
@@ -20,7 +20,6 @@ BigInt& BigInt::operator+=(const BigInt  &  b) {
 	int ten = 0;
 	for (; num.size() < b.num.size(); num.push_back(0));
 	auto f = false;
-	//auto min = [](size_t a, size_t b) {return a < b ? a : b; };
 	if ((sig&&b.sig) || (!sig && !b.sig)) {
 		for (int i = 0; i < b.num.size() || ten; ++i) {
 
@@ -39,7 +38,6 @@ BigInt& BigInt::operator+=(const BigInt  &  b) {
 		}
 		int left = 0;
 		bool bigger = abs(*this)>abs(b);
-		//for (bigger = (num[j] > b.num[j]) || (num.size() > b.num.size()); j > 0 && (num[j] == b.num[j]) && (num.size() == b.num.size()); --j, bigger = (num[j] > b.num[j]));
 		for (int i = 0; i < b.num.size(); ++i) {
 			if (bigger) {
 				int g;
@@ -125,15 +123,7 @@ int BigInt::compare(const BigInt &bi) const { // -1 - they equal, 0 - this bigge
 	}
 }
 
-//BigInt BigInt::del(BigInt &operand, const int devide) {
-//	BigInt ten = 0;
-//	for (int i = operand.num.size(); i > -1; --i) {
-//		long long ans = operand.num[i] + (ten *= 10);
-//		operand.num[i] = int(ans / devide);
-//		ten = int(ans%devide);
-//	}
-//	return ten;
-//}
+
 
 bool BigInt::operator>(const BigInt &bi)const {
 	 return (this->compare(bi) == 0) ;
@@ -149,11 +139,11 @@ bool BigInt::operator!=(const BigInt &operand) const
 	return !(*this==operand);
 }
 
-BigInt::operator bool const()const {
+BigInt::operator bool() const {
 	return(num[num.size() - 1]);
 }
 
-BigInt::operator long long const() const {
+BigInt::operator long long() const {
 	long long res = num[num.size()-1];
 	for (int i = num.size() - 2; i >= 0; --i) {
 		res *= 10;
@@ -249,7 +239,7 @@ BigInt & BigInt::operator%=(const BigInt &operand)
 	return *this;
 }
 
-BigInt BigInt::operator%(const BigInt operand) const {
+BigInt BigInt::operator%(const BigInt& operand) const {
 	BigInt res = *this;
 	return res %= operand;
 }
@@ -267,7 +257,7 @@ BigInt BigInt::operator++(int) {
 BigInt::~BigInt() {
 }
 
- std::ostream & operator<<(std::ostream& str, const BigInt bi) {
+ std::ostream & operator<<(std::ostream& str, const BigInt& bi) {
 	if (bi.sig) {
 		str << '-';
 	}
@@ -281,7 +271,6 @@ BigInt::~BigInt() {
 
  std::istream & operator>>(std::istream& str, BigInt& bi) {
 	 char c;
-	// size_t i = 0;
 	 bi = BigInt();
 
 	 str >> c;
@@ -291,7 +280,6 @@ BigInt::~BigInt() {
 		 if ((c >= '0') && (c <= '9' ))
 		 {
 			 bi.num.push_back(c - '0');
-			// ++i;
 		 }
 		 else
 		 {
@@ -316,7 +304,6 @@ BigInt::~BigInt() {
 		if ((c >= '0') && (c <= '9'))
 		{
 			bi.num.push_front(c - '0');
-			//++i;
 		}
 		else
 		{

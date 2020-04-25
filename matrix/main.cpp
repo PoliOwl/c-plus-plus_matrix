@@ -14,24 +14,40 @@ void print_iter(const Container& container, const std::string& delimeter = " ", 
 	out << "\n";
 }
 
+struct TMP {
+	int x;
+	TMP(int x): x(x){}
+};
+
 int main()
 {
-	const int N = 20, M = 50, K = 30, T = 11;
-	finite<T> *r = new finite<T>[M*N];
-	for (int i = 1; i <= M * N; ++i) {
-		r[i-1] = finite<T>(i);
-	}
-	matrix<M, N, finite<T>> mn(r);
-	//delete r;
-	r = new finite<T>[N * K];
-	for (int i = 1; i <= N * K; ++i) {
-		r[i - 1] = finite<T>(i);
-	}
-	 matrix<N, K, finite<T>> nk(r);
-	//matrix<K, N> kn = nk.transpose();
-	//nk.getColumn(mn.mat[])
-	std::cout << mn << "\n __________\n" << nk << "\n __________\n";
-	std::cout<< mn * nk;
+	//const int N = 20, M = 50, K = 30, T = 11;
+	//finite<T> *r = new finite<T>[M*N];
+	//for (int i = 1; i <= M * N; ++i) {
+	//	r[i-1] = finite<T>(i);
+	//}
+	//matrix<M, N, finite<T>> mn(r);
+	////delete r;
+	//r = new finite<T>[N * K];
+	//for (int i = 1; i <= N * K; ++i) {
+	//	r[i - 1] = finite<T>(i);
+	//}
+	// matrix<N, K, finite<T>> nk(r);
+	////matrix<K, N> kn = nk.transpose();
+	////nk.getColumn(mn.mat[])
+	//std::cout << mn << "\n __________\n" << nk << "\n __________\n";
+	//std::cout<< mn * nk;
 	//std::cout << kn;
+
+	line<5, TMP> l;
+	l.add_back(TMP(3));
+	l.change_delim('4');
+	const unsigned N = 2;
+	rational* m = new rational[N * N];
+	for (int i = 0; i < N * N; ++i) {
+		m[i] = i+1;
+	}
+	matrix<N, N> k(m);
+	std::cout << k;
 }
 
