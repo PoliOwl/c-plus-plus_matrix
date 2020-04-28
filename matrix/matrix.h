@@ -2,11 +2,11 @@
 #include "rational.h"
 #include "line.h"
 
-template <unsigned M, unsigned N, typename field = rational> class matrix {
+template < typename field, unsigned M, unsigned N = M> class matrix {
 protected:
 	line<M, line<N, field>> mat;
-	matrix() {};
-	template <unsigned , unsigned , typename > friend class matrix;
+	//matrix() {};
+	template <typename, unsigned , unsigned > friend class matrix;
 public:
 
 
@@ -25,6 +25,12 @@ public:
 	matrix(field* m) {
 		for (size_t i = 0; i < M; ++i) {
 			mat.add_back(line<N, field>((m + (N * i)), N));
+		}
+	}
+
+	matrix(field m) {
+		for (size_t i = 0; i < M; ++i) {
+			mat.add_back(line<N, field>(m));
 		}
 	}
 
@@ -51,7 +57,7 @@ public:
 		return mat[i];
 	}
 
-	bool operator ==(const matrix<M, N, field>& operand) {
+	bool operator ==(const matrix<field, M, N>& operand) {
 		for (size_t i = 0; i < M; ++i) {
 			if (mat[i] != operand.mat[i]) {
 				return false;
@@ -60,17 +66,17 @@ public:
 		return true;
 	}
 
-	bool operator != (const matrix<M, N, field>& operand) {
+	bool operator != (const matrix<field, M, N>& operand) {
 		return !(*this == operand);
 	}
 
-	template < unsigned K, unsigned L, typename f >
-	bool operator == (const matrix<K, L, f>&) {
+	template < typename f, unsigned K, unsigned L = K>
+	bool operator == (const matrix<f, K, L>&) {
 		return false;
 	}
 
-	template < unsigned K, unsigned L, typename f >
-	bool operator != (const matrix<K, L, f>&) {
+	template < typename f, unsigned K, unsigned L = K>
+	bool operator != (const matrix<f, K, L>&) {
 		return true;
 	}
 	
@@ -81,22 +87,22 @@ public:
 		return *this;
 	}
 
-	matrix<M, N, field> operator -() const {
-		matrix<M, N, field> m = *this;
+	matrix<field ,M, N> operator -() const {
+		matrix<field, M, N> m = *this;
 		for (size_t i = 0; i < M; ++i) {
 			m[i] = -m[i];
 		}
 		return m;
 	}
 
-	matrix<M, N, field>& operator +=(const matrix<M, N, field>& operand) {
+	matrix<field, M, N>& operator +=(const matrix<field, M, N>& operand) {
 		for (size_t i = 0; i < M; ++i) {
 			mat[i] += operand[i];
 		}
 		return *this;
 	}
 
-	matrix<M, N, field>& operator -=(const matrix<M, N, field>& operand) {
+	matrix<field, M, N>& operator -=(const matrix<field, M, N>& operand) {
 		return (*this -= (-operand));
 	}
 
@@ -123,12 +129,12 @@ public:
 		}
 	}
 	
-	matrix<M, N, field> operator+(const matrix<M, N, field>& operand) const {
+	matrix<field, M, N> operator+(const matrix<field, M, N>& operand) const {
 		matrix<M, N, field> m = *this;
 		return m += operand;
 	}
 
-	matrix<M, N, field> operator-(const matrix<M, N, field>& operand) const {
+	matrix<field, M, N> operator-(const matrix<field, M, N>& operand) const {
 		matrix<M, N, field> m = *this;
 		return m -= operand;
 	}
@@ -145,15 +151,16 @@ public:
 		return ans;
 	}
 
-	matrix<N, M, field> transpose() const {
-		matrix<N, M, field> ans;
+	matrix<field, N, M> transpose() const {
+		matrix<field, N, M> ans;
 		for (size_t i = 0; i < N; ++i) {
 			ans.mat.add_back(this->getColumn(i));
 		}
 		return ans;
 	}
 
-	friend std::ostream& operator<<(std::ostream& os, const matrix<M, N, field>& operand) {
+
+	friend std::ostream& operator<<(std::ostream& os, const matrix<field, M, N>& operand) {
 		for (size_t i = 0; i < M; ++i) {
 			os << operand.mat[i];
 			os << '\n';
@@ -161,11 +168,11 @@ public:
 		return os;
 	}
 
-	
+
 	template <unsigned K>
-	matrix<M, K, field> operator*(const matrix<N, K, field>& operand) const {
-	    matrix<M, K, field> ans;
-		matrix<K, N, field> toperand = operand.transpose();
+	matrix<field, M, K> operator*(const matrix<field, N, K>& operand) const {
+		matrix<field, M, K> ans;
+		matrix<field, K, N> toperand = operand.transpose();
 		for (size_t i = 0; i < M; ++i) {
 			ans.mat.add_back(line<K, field>());
 			for (size_t j = 0; j < K; ++j) {
@@ -174,21 +181,18 @@ public:
 		}
 		return ans;
 	}
-};
 
-template<unsigned N, typename field = rational>
-class SquareMatrix : public matrix<N, N, field> {
-
-	using matrix<N, N, field>::mat;
-public:
-	SquareMatrix() {
-		matrix<N, N, field>::matrix();
-		for (size_t i = 0; i < N; ++i) {
-			mat.add_back(line<N, field>(field(0)));
-			mat[i][i] = 1;
+	//template <unsigned M, typename f = rational>
+	static matrix<field, M> get_ones() {
+		matrix<field, M> m(field(0));
+		for (size_t i = 0; i < M; ++i) {
+			m.mat[i][i] = field(1);
 		}
+		return m;
 	}
-
 	
+
 };
+
+
 

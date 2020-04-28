@@ -8,6 +8,7 @@ class rational {
 public:
 	rational(const BigInt&, const BigInt&);
 	rational(const int& a):rational(BigInt(a),1) {};
+	rational(const BigInt& a) :rational(a, 1) {};
     rational() {};
 	rational& operator+=(const rational&);
 	rational operator+(const rational&) const;

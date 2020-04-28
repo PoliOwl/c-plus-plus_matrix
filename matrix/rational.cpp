@@ -118,6 +118,6 @@ rational rational::operator/(const rational &operand) const {
 }
 
 rational::operator double const() const {
-double res = double(long long(top)) / double(long long(bottom));
-return res;
+	double res = static_cast<double>(static_cast<long long>(top)) / static_cast<double>(static_cast<long long>(bottom));
+    return res;
 }
