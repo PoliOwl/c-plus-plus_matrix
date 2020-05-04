@@ -21,5 +21,11 @@ public:
 	rational operator*(const rational&) const;
 	rational& operator/=(const rational&);
 	rational operator/(const rational&) const;
+	bool operator==(const rational&) const;
+	bool operator !=(const rational&) const;
+	bool operator<(const rational&) const;
+	bool operator>(const rational&) const;
+	bool operator>=(const rational&) const;
+	bool operator<=(const rational&) const;
 	explicit operator double const() const;
 };

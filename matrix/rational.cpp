@@ -117,6 +117,45 @@ rational rational::operator/(const rational &operand) const {
 	return res /= operand;
 }
 
+bool rational::operator==(const rational& operand) const {
+	if (top == operand.top && bottom == operand.bottom) {
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+
+bool rational::operator!=(const rational&operand) const {
+	return !(*this == operand);
+}
+
+bool rational::operator<(const rational&operand) const {
+	if (top * operand.bottom < operand.top * bottom) {
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+
+bool rational::operator>(const rational&operand) const {
+	if (top * operand.bottom > operand.top * bottom) {
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+
+bool rational::operator>=(const rational&operand) const {
+	return !(*this < operand);
+}
+
+bool rational::operator<=(const rational&operand) const {
+	return !(*this > operand);
+}
+
 rational::operator double const() const {
 	double res = static_cast<double>(static_cast<long long>(top)) / static_cast<double>(static_cast<long long>(bottom));
     return res;
